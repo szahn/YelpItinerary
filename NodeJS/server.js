@@ -108,14 +108,14 @@ var SampleApp = function() {
         };*/
 
 		//example: /bookmarks/WA/Seattle?YelpUserId=XXX
-		self.routes['/bookmarks/:state/:city'] = function(req, res){
+		self.routes['/bookmarks/:state/:city'] = function(req, res, next){
 
 			var state = req.params.state;
 			var city = req.params.city;
 			var yelpUserId = req.query.YelpUserId;
 			
 			GetPublicYelpBookmarks(yelpUserId, city, state, function(yelpBookmarks){
-				sys.puts(yelpBookmarks.length + " Yelp bookmarks found for " + yelpUserId + " in " + city + ", " + state);
+				console.log(yelpBookmarks.length + " Yelp bookmarks found for " + yelpUserId + " in " + city + ", " + state);
 				res.json(yelpBookmarks);
 			});
 
@@ -193,7 +193,16 @@ var SampleApp = function() {
      */
     self.initializeServer = function() {
         self.createRoutes();
+
+        var allowCrossDomain = function(req, res, next) {
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Methods', 'GET');
+            res.header('Access-Control-Allow-Headers', 'Content-Type');
+            next();
+        }
+
         self.app = express.createServer();
+        self.app.use(allowCrossDomain);
 
         //  Add handlers for the app (from the routes).
         for (var r in self.routes) {

@@ -4,7 +4,7 @@ var Itinerary = function(){
 	var map;
 
 	var viewModel = {
-		yelpUserId: "PdvSyOynbCqPToRi64_KTQ",
+		yelpUserId: "",
 		streetAddress: "",
 		latitude: "",
 		longitude: "",
@@ -103,7 +103,7 @@ var Itinerary = function(){
 	}
 
 	function GetPublicYelpBookmarks(userId, city, state, waypointsCollected){
-		var url = 'http://localhost:3000/bookmarks/' + state + '/' +  city + '?YelpUserId=' + userId;
+		var url = 'http://localhost:8080/bookmarks/' + state + '/' +  city + '?YelpUserId=' + userId;
 
 		var ajaxOptions = {url: url, 
 			type: 'GET', 
